@@ -73,17 +73,7 @@ export default function AdminLoginPage() {
                         </div>
                     )}
 
-                    <div className="mb-6 p-4 bg-primary/5 border border-primary/20 rounded-sm text-center">
-                        <p className="text-xs font-mono text-foreground/70 mb-1">
-                            Default setup credentials:
-                        </p>
-                        <p className="text-sm font-mono font-bold text-primary">
-                            Email: taetule@gmail.com
-                        </p>
-                        <p className="text-sm font-mono font-bold text-primary">
-                            Password: admin123
-                        </p>
-                    </div>
+
 
                     <form onSubmit={handleLogin} className="space-y-4">
                         <div>
