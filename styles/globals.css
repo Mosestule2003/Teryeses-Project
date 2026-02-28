@@ -1,0 +1,116 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Core Colors */
+  --background: #ffffff;
+  /* Pure white background */
+  --foreground: #000000;
+  /* Pure Black for high-contrast rich text */
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+
+  /* Accent & Theme - Doctor Portfolio *Sky Blue* */
+  --primary: #0284c7;
+  /* Sky 600 - Deep, professional medical blue */
+  --primary-foreground: #ffffff;
+  /* White text on primary buttons */
+
+  --secondary: #e0f2fe;
+  /* Sky 100 - Extremely soft blue for secondary zones */
+  --secondary-foreground: #0369a1;
+  /* Sky 700 - Deep blue text for secondary areas */
+
+  --muted: #f4f4f5;
+  /* Zinc 100 - Extra soft grey for backgrounds */
+  --muted-foreground: #52525b;
+  /* Zinc 600 - Perfect medium grey for muted text */
+
+  --accent: #f0f9ff;
+  --accent-foreground: #0284c7;
+
+  /* System UI Elements */
+  --destructive: #111827;
+  /* Swapped any lingering reds to nearly black */
+  --destructive-foreground: #ffffff;
+  --border: #e4e4e7;
+  /* Zinc 200 - Soft grey borders */
+  --input: #e4e4e7;
+  --ring: #bae6fd;
+  /* Sky 200 - Soft blue focus ring */
+  --radius: 1rem;
+}
+
+.dark {
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+
+  --secondary: #e0f2fe;
+  --secondary-foreground: #0369a1;
+
+  --muted: #f4f4f5;
+  --muted-foreground: #52525b;
+
+  --accent: #f0f9ff;
+  --accent-foreground: #0284c7;
+
+  --destructive: #111827;
+  --destructive-foreground: #ffffff;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #bae6fd;
+}
+
+@theme {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+
+  body {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
