@@ -36,7 +36,7 @@ export function HeroSection({ data }: { data?: HeroData }) {
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 max-w-[1400px] mx-auto w-full items-center relative z-10 pt-20">
 
         {/* Left Column - Minimalist Typography */}
-        <div className="flex flex-col justify-center lg:pr-12 text-center lg:text-left order-2 lg:order-1 relative z-20">
+        <div className="flex flex-col justify-center lg:pr-12 text-center lg:text-left order-2 lg:order-1 relative z-20 w-full mt-4 md:mt-0">
           <AnimateOnScroll>
             {/* The Badge */}
             <span className="inline-flex items-center px-4 py-1.5 bg-accent text-accent-foreground font-sans text-xs uppercase tracking-widest font-bold rounded-full mb-6 mx-auto lg:mx-0 w-max">
@@ -74,8 +74,8 @@ export function HeroSection({ data }: { data?: HeroData }) {
           {/* Whitespace Strategy: Bottom left is left entirely empty per prompt */}
         </div>
 
-        {/* Right Column - Lifestyle Image & Floating Info Cards */}
-        <div className="relative order-1 lg:order-2 h-[500px] md:h-[600px] lg:h-[700px] w-full max-w-xl mx-auto lg:max-w-none">
+        {/* Right Column - Lifestyle Image (Hidden on Mobile) */}
+        <div className="relative order-1 lg:order-2 h-0 md:h-[600px] lg:h-[700px] w-full max-w-xl mx-auto lg:max-w-none hidden md:block">
           <AnimateOnScroll delay={200} className="w-full h-full relative">
             <div className="absolute inset-0 rounded-[32px] overflow-hidden bg-card border border-border/50 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)]">
               {portraitImage && (
