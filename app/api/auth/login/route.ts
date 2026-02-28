@@ -7,8 +7,9 @@ import { cookies } from 'next/headers';
 export async function POST(request: Request) {
     try {
         const { email, password } = await request.json();
+        const cleanEmail = email.trim();
 
-        if (!email || !password) {
+        if (!cleanEmail || !password) {
             return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
         }
 
@@ -16,18 +17,18 @@ export async function POST(request: Request) {
         const { data: user, error } = await supabase
             .from('admin_users')
             .select('id, email, password_hash, role')
-            .eq('email', email)
+            .eq('email', cleanEmail)
             .single();
 
         if (error || !user) {
-            return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+            return NextResponse.json({ error: error?.message || 'User not found in database', details: error }, { status: 401 });
         }
 
         // 2. Verify password securely with bcrypt
         const isValid = await bcrypt.compare(password, user.password_hash);
 
         if (!isValid) {
-            return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+            return NextResponse.json({ error: 'Invalid password hash comparison' }, { status: 401 });
         }
 
         // 3. Create the JWT token containing non-sensitive payload
