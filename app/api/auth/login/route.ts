@@ -25,7 +25,8 @@ export async function POST(request: Request) {
         }
 
         // 2. Verify password securely with bcrypt
-        const isValid = await bcrypt.compare(password, user.password_hash);
+        const cleanPassword = password.trim();
+        const isValid = await bcrypt.compare(cleanPassword, user.password_hash);
 
         if (!isValid) {
             return NextResponse.json({ error: 'Invalid password hash comparison' }, { status: 401 });
