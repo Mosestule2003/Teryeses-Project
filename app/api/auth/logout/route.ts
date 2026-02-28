@@ -5,5 +5,6 @@ export async function POST(request: Request) {
     const cookieStore = await cookies();
     cookieStore.delete('admin_session');
 
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+    // Return a 303 See Other redirect so the browser uses a GET request to hit the landing page
+    return NextResponse.redirect(new URL('/', request.url), { status: 303 });
 }
