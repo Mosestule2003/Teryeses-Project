@@ -3,8 +3,10 @@ import type { NextRequest } from 'next/server';
 import { verifyToken } from './lib/auth';
 
 export async function middleware(request: NextRequest) {
-    // We only want to protect /admin/* routes, except /admin/login
-    if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
+    const isPublicRoute = ['/admin/login', '/admin/forgot-password', '/admin/reset-password'].some(path => request.nextUrl.pathname.startsWith(path));
+
+    // We only want to protect /admin/* routes, except the public auth ones above
+    if (request.nextUrl.pathname.startsWith('/admin') && !isPublicRoute) {
         const session = request.cookies.get('admin_session')?.value;
 
         if (!session) {
