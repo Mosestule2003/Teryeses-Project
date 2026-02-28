@@ -100,9 +100,18 @@ export default function AdminLoginPage() {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-mono tracking-wider uppercase text-foreground/70 mb-2">
-                                Password
-                            </label>
+                            <div className="flex items-center justify-between mb-2">
+                                <label className="block text-xs font-mono tracking-wider uppercase text-foreground/70">
+                                    Password
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={() => router.push("/admin/forgot-password")}
+                                    className="text-[10px] font-mono tracking-wider uppercase text-primary hover:underline"
+                                >
+                                    Forgot Password?
+                                </button>
+                            </div>
                             <input
                                 type="password"
                                 value={password}

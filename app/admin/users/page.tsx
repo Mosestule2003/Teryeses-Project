@@ -2,20 +2,20 @@ import { getSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { ContentEditor } from "@/components/admin/content-editor";
+import { AddAdminForm } from "@/components/admin/add-admin-form";
 
-export default async function AdminDashboard() {
+export default async function AdminUsersPage() {
     const session = await getSession();
 
     if (!session) {
         redirect("/admin/login");
     }
 
-    // Server-side securely fetch the master order of website sections from the database
-    const { data: contentRows } = await supabase
-        .from('site_content')
-        .select('*')
-        .order('order_index', { ascending: true });
+    // Securely fetch existing admins
+    const { data: admins } = await supabase
+        .from('admin_users')
+        .select('id, email, role')
+        .order('id', { ascending: true });
 
     return (
         <div className="flex h-screen bg-muted/30 text-foreground transition-colors duration-500 overflow-hidden font-sans selection:bg-primary/20 selection:text-primary">
@@ -34,11 +34,11 @@ export default async function AdminDashboard() {
                     <div className="space-y-1">
                         <p className="px-4 text-[10px] font-mono uppercase tracking-widest text-foreground/40 font-semibold mb-3">Management</p>
                         <nav className="space-y-1">
-                            <a href="/admin/dashboard" className="flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground rounded-2xl transition-all shadow-sm font-medium text-sm">
+                            <a href="/admin/dashboard" className="flex items-center gap-3 px-4 py-3 text-foreground/70 hover:bg-foreground/5 hover:text-foreground rounded-2xl transition-all font-medium text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><line x1="3" x2="21" y1="9" y2="9" /><line x1="9" x2="9" y1="21" y2="9" /></svg>
                                 Content Manager
                             </a>
-                            <a href="/admin/users" className="flex items-center gap-3 px-4 py-3 text-foreground/70 hover:bg-foreground/5 hover:text-foreground rounded-2xl transition-all font-medium text-sm mt-1">
+                            <a href="/admin/users" className="flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground rounded-2xl transition-all shadow-sm font-medium text-sm mt-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" x2="19" y1="8" y2="14" /><line x1="22" x2="16" y1="11" y2="11" /></svg>
                                 Admin Access
                             </a>
@@ -68,16 +68,44 @@ export default async function AdminDashboard() {
 
             {/* Main Content Area */}
             <main className="flex-1 relative overflow-y-auto overflow-x-hidden scroll-smooth perspective-[1000px]">
-                {/* Subtle Grain Overlay for texture */}
                 <div className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay bg-[url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Dissolve_Noise_Texture.png')] bg-repeat" />
 
-                <div className="max-w-6xl mx-auto p-12 lg:p-16 relative z-10">
-                    <div className="mb-12 max-w-2xl">
-                        <h1 className="font-serif text-5xl font-medium tracking-tight mb-4 text-foreground/90">Website Engine</h1>
-                        <p className="text-foreground/50 text-base leading-relaxed max-w-lg font-medium">Control, rewrite, and deploy every layer of your digital presence instantaneously.</p>
+                <div className="max-w-6xl mx-auto p-12 lg:p-16 relative z-10 w-full flex flex-col gap-12">
+
+                    {/* Header */}
+                    <div className="max-w-2xl">
+                        <h1 className="font-serif text-5xl font-medium tracking-tight mb-4 text-foreground/90">Access Control</h1>
+                        <p className="text-foreground/50 text-base leading-relaxed max-w-lg font-medium">Manage who has access to the administrative dashboard and content controls.</p>
                     </div>
 
-                    <ContentEditor initialData={contentRows || []} />
+                    <div className="grid lg:grid-cols-2 gap-12">
+                        {/* List Existing Admins */}
+                        <div>
+                            <h2 className="text-xl font-serif font-bold mb-6">Current Administrators</h2>
+                            <div className="bg-card border border-foreground/10 rounded-2xl overflow-hidden shadow-sm">
+                                {admins?.map((admin: any) => (
+                                    <div key={admin.id} className="flex items-center gap-4 p-4 border-b border-foreground/5 last:border-0 hover:bg-foreground/5 transition-colors">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-serif font-bold shrink-0">
+                                            {admin.email.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <p className="font-medium text-sm">{admin.email}</p>
+                                            <p className="text-[10px] uppercase font-mono tracking-widest text-muted-foreground mt-0.5">{admin.role}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Add Admin Form Block */}
+                        <div>
+                            <h2 className="text-xl font-serif font-bold mb-6">Invite Colleague</h2>
+                            <div className="bg-card border border-foreground/10 rounded-2xl p-6 shadow-sm">
+                                <AddAdminForm />
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </main>
         </div>

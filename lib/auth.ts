@@ -12,6 +12,14 @@ export async function signToken(payload: any) {
         .sign(key);
 }
 
+export async function signResetToken(payload: any) {
+    return await new SignJWT(payload)
+        .setProtectedHeader({ alg: "HS256" })
+        .setIssuedAt()
+        .setExpirationTime("15m") // 15-minute validity for security
+        .sign(key);
+}
+
 export async function verifyToken(token: string) {
     try {
         const { payload } = await jwtVerify(token, key, {
